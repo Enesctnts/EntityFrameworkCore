@@ -55,5 +55,16 @@ namespace EFCore.CodeFirst.DAL
             return base.SaveChanges();
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //Fluent Apı işlemi 
+            //Veritabanı tablo işlemleri
+            modelBuilder.Entity<Product>().ToTable("Products",schema:"dbo"); 
+            modelBuilder.Entity<Product>().HasKey(x => x.Id);//PrimaryKey 
+            modelBuilder.Entity<Product>().Property(x => x.Barcode).HasMaxLength(200);// HasMaxLength property si veritabanındaki Barcode alanı max100 olmasını sağlıyor.
+            modelBuilder.Entity<Product>().Property(x => x.Name).IsRequired().HasMaxLength(100).IsFixedLength();//IsFixedLength property si veritabanındaki name alanı max100 min100 olmasını sağlıyor.
+            base.OnModelCreating(modelBuilder);
+        }
+
     }
 }
