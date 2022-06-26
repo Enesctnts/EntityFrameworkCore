@@ -27,6 +27,9 @@ namespace EFCore.CodeFirst.DAL
             optionsBuilder.UseSqlServer(Initializer.Configurations.GetConnectionString("SqlCon"));
         }
 
+        //Detacted:Bir sorgunun state'i Detacted ise Track edilmiyordur.
+        //Unchanged: Veritabanıyla yazdıgımız sorgunun state'i aynı ise Unchanged'dir.
+         
         public override int SaveChanges()
         {
             //EntityFramework listeleme,ekleme,güncelleme,silme işlemlerini önce Tracker'a alır.Burda add,update,delete,list şeklinde işlemlerin durumu(State) ne ise o şekilde tutulur. SaveChanges yapıldıktan sonra veritabanına bildirilir.Bildirilmeden önce burda tutuğu için Ram'de yer kaplar ve sistemi yorar. Örnek verirsek 1000 tane ürün listelediğimiz zaman bu ürünlerin hepsini var products= dbcontext.product.tolist() yapıldında tracker'a alır. Burada ekleme silme veya güncelleme yapılmadıgı için trackerda yer kaplamasına yani ram' i yormasına gerek yok.
